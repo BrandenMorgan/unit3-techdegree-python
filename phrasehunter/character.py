@@ -1,10 +1,9 @@
-# Create your Character class logic in here.
 class Character:
-    def __init__(self, char, was_guessed=False):
-        if type(char) == int or len(char) != 1:
-            raise ValueError("Your guess must be 1 letter.")
+    def __init__(self, char):
+        if type(char) != str or len(char) != 1:
+            raise ValueError("Your character must be 1 letter.")
         self.original = char
-        self.was_guessed = was_guessed
+        self.was_guessed = False
 
     def __str__(self):
         return self.original
