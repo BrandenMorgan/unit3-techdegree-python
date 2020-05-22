@@ -1,19 +1,13 @@
 import random
-import re
 import time
 
 from .phrase import Phrase
 
-# Is this ok?
-with open('phrases.txt') as phrases:
-    data = phrases.read()
-    phrase_list = re.findall(r"[\w?' ]+", data)
-
 
 class Game:
     def __init__(self, phrases):
-        self.phrases = phrases # Includes an initializer that will set a phrases instance attribute to a List of at least five Phrase objects
-        self.current_phrase = Phrase(random.choice(self.phrases))
+        self.phrases = [Phrase(item) for item in phrases]
+        self.current_phrase = random.choice(self.phrases)
         self.lives = 5
 
     def unguessed_phrase(self):
@@ -38,21 +32,22 @@ class Game:
                 print("Your guess must be 1 letter.")
 
     def make_guess(self, guess):
-        current_guess = self.current_phrase.guess(guess)
-        show = self.current_phrase.show_phrase(current_guess)
-        return show
+        self.current_phrase.guess(guess)
+        return self.current_phrase.show_phrase()
 
     def start_game(self):
         phrase = self.current_phrase.character_list
         already_guessed = []
         show_guess = self.unguessed_phrase()
-        print("\nAll phrases start with one uppercase letter.\nType 'EXIT' to exit.")
-        print('\n', show_guess)
-        guess = ' '
-        self.make_guess(guess)
-
+        print("\nType 'EXIT' to exit.")
+        print('\n' + show_guess)
+        self.make_guess(' ')
         while '_' in show_guess and self.lives > 0:
             guess = self.get_guess()
+            if guess.upper() == self.current_phrase.character_list[0]:
+                show_guess = self.make_guess(guess.upper())
+            if guess == self.current_phrase.character_list[0]:
+                show_guess = self.make_guess(guess.lower())
             show_guess = self.make_guess(guess)
             if guess.upper() == 'EXIT':
                 time.sleep(.5)
@@ -73,13 +68,12 @@ class Game:
                 play_again = input("Would you like to play again? [y]es/[n]o: ")
                 if play_again.upper() in ['Y', 'YES']:
                     self.lives = 5
-                    self.current_phrase = Phrase(random.choice(self.phrases))
+                    self.current_phrase = random.choice(self.phrases)
                     phrase = self.current_phrase.character_list
                     already_guessed = []
                     show_guess = self.unguessed_phrase()
-                    print('\n', show_guess)
-                    guess = ' '
-                    self.make_guess(guess)
+                    print('\n' + show_guess)
+                    self.make_guess(' ')
                     continue
                 print("\n***** Thank you for playing *****")
                 time.sleep(.5)
@@ -92,13 +86,12 @@ class Game:
                 play_again = input("Would you like to play again? [y]es/[n]o: ")
                 if play_again.upper() in ['Y', 'YES']:
                     self.lives = 5
-                    self.current_phrase = Phrase(random.choice(self.phrases))
+                    self.current_phrase = random.choice(self.phrases)
                     phrase = self.current_phrase.character_list
                     already_guessed = []
                     show_guess = self.unguessed_phrase()
-                    print('\n', show_guess)
-                    guess = ' '
-                    self.make_guess(guess)
+                    print('\n' + show_guess)
+                    self.make_guess(' ')
                     continue
                 print("\n***** Thank you for playing *****")
                 time.sleep(.5)

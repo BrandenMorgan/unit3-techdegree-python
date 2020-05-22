@@ -1,16 +1,12 @@
-# Import your Game class
-import random
 import re
 
-from phrasehunter.game import Game, phrase_list
+from phrasehunter.game import Game
 
 
-# Create your Dunder Main statement.
 if __name__ == '__main__':
-# Inside Dunder Main:
-    
-## Create an instance of your Game class
+    with open('phrases.txt') as phrases:
+        data = phrases.read()
+        phrase_list = re.findall(r"[\w?' ]+", data)
+
     game = Game(phrase_list)
-## Start your game by calling the instance method that starts the game loop
     game.start_game()
-# Do I need anything else in here?

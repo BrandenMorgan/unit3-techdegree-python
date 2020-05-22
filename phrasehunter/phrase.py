@@ -13,7 +13,7 @@ class Phrase:
         for obj in self.phrase:
             obj.exists(guess)
 
-    def show_phrase(self, guess):
+    def show_phrase(self):
         guess_phrase = []
         for obj in self.phrase:
             guess_phrase.append(obj.show())
