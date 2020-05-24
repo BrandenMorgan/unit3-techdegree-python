@@ -48,7 +48,8 @@ class Game:
                 show_guess = self.make_guess(guess.upper())
             if guess == self.current_phrase.character_list[0]:
                 show_guess = self.make_guess(guess.lower())
-            show_guess = self.make_guess(guess)
+            if guess.upper():
+                show_guess = self.make_guess(guess.lower())
             if guess.upper() == 'EXIT':
                 time.sleep(.5)
                 print('\n...Goodbye\n')
@@ -56,11 +57,12 @@ class Game:
                 break
             if guess in already_guessed:
                 print('\n"{}" was already guessed. Try again.'.format(guess))
-            if guess not in phrase and guess not in already_guessed:
+            if guess.lower() not in phrase and guess not in already_guessed:
                 self.lives -= 1
                 print('\nYou have {} out of 5 lives remaining!'.format(self.lives))
             if guess not in already_guessed:
-                already_guessed.append(guess)
+                already_guessed.append(guess.lower())
+                already_guessed.append(guess.upper())
             print('\n' + (' ').join(show_guess))
 
             if '_' not in show_guess and self.lives > 0:
